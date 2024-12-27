@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fff;
+            --text-primary: #000;
+            --card-bg: #f0f0f0;
+            --header-bg: #ffffff;
+            --border-color: #ddd;
+            --filter-active: #e50914;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #141414;
+            --text-primary: #fff;
+            --card-bg: #1f1f1f;
+            --header-bg: #000000;
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: #e50914;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 1rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Filter Styles */
+        .filter-section {
+            margin: 1rem 0 2rem 0;
+        }
+
+        .filter-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background: var(--filter-active);
+            color: white;
+        }
+
+        .filter-button.active {
+            background: var(--filter-active);
+            color: white;
+        }
+
+        .stories-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 1rem 0;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .story {
+            flex: 0 0 100px;
+            height: 150px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #e50914;
+        }
+
+        .story img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .videos-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        .video-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            background-color: #666;
+            position: relative;
+        }
+
+        .video-info {
+            padding: 0.8rem;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-meta {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .story {
+                flex: 0 0 80px;
+                height: 120px;
+            }
+
+            .filter-container {
+                gap: 0.5rem;
+            }
+
+            .filter-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+       
+    </header>
+
+    <main>
+         <div class="header-content">
+            <div class="logo">VIDEOFLIX</div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h2 class="filter-title">Filters</h2>
+            <div class="filter-container">
+                <button class="filter-button active" data-category="all">All Videos</button>
+                <button class="filter-button" data-category="trending">Trending</button>
+                <button class="filter-button" data-category="music">Music</button>
+                <button class="filter-button" data-category="gaming">Gaming</button>
+                <button class="filter-button" data-category="movies">Movies</button>
+                <button class="filter-button" data-category="sports">Sports</button>
+            </div>
+        </div>
+
+        <!-- Stories Section -->
+        <div class="stories-container">
+            <div class="story">
+                <img src="/api/placeholder/100/150" alt="Story 1">
+            </div>
+            <div class="story">
+                <img src="/api/placeholder/100/150" alt="Story 2">
+            </div>
+            <div class="story">
+                <img src="/api/placeholder/100/150" alt="Story 3">
+            </div>
+            <div class="story">
+                <img src="/api/placeholder/100/150" alt="Story 4">
+            </div>
+            <div class="story">
+                <img src="/api/placeholder/100/150" alt="Story 5">
+            </div>
+        </div>
+
+        <!-- Videos Grid -->
+        <div class="videos-grid">
+            <div class="video-card" data-category="trending">
+                <div class="video-thumbnail"></div>
+                <div class="video-info">
+                    <div class="video-title">Amazing Adventure</div>
+                    <div class="video-meta">1.2M views • 2 days ago</div>
+                </div>
+            </div>
+            <div class="video-card" data-category="music">
+                <div class="video-thumbnail"></div>
+                <div class="video-info">
+                    <div class="video-title">Top Music Hits</div>
+                    <div class="video-meta">856K views • 1 week ago</div>
+                </div>
+            </div>
+            <div class="video-card" data-category="gaming">
+                <div class="video-thumbnail"></div>
+                <div class="video-info">
+                    <div class="video-title">Gaming Stream</div>
+                    <div class="video-meta">2.1M views • 3 days ago</div>
+                </div>
+            </div>
+            <div class="video-card" data-category="movies">
+                <div class="video-thumbnail"></div>
+                <div class="video-info">
+                    <div class="video-title">Movie Review</div>
+                    <div class="video-meta">432K views • 5 days ago</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle i');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.className = 'fas fa-moon';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.className = 'fas fa-sun';
+            }
+        }
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const videoCards = document.querySelectorAll('.video-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+
+                    const category = button.getAttribute('data-category');
+                    
+                    videoCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
